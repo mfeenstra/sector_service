@@ -1,0 +1,200 @@
+<!-- Nested Dropdowns Example: Bootstrap + ERB w/ Rails.
+     A good way to represent data. -->
+
+          <!-- BEGIN -->
+          <div class="dropdown">
+            <a class="nav-link dropdown-toggle border-md-right" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sectors</a>
+            <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+              <p style="text-align: center">All Sectors</p>
+              <li class="dropdown-divider"></li>
+
+              <li class="dropdown-submenu">
+                <a class="dropdown-item" tabindex="-1" href="#">top-most</a>
+                <ul class="dropdown-menu">
+                  <li class="dropdown-submenu">
+                    <p>this is some p text</p>
+		    <li class="dropdown-divider"></li>
+                    <a class="dropdown-item" href="https://finance.yahoo.com">this is a link to yahoo</a>
+
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item" tabindex="-1" href="#">second-most</a>
+                        <ul class="dropdown-menu">
+                          <li class="dropdown-submenu">
+                            <p>this is some p text</p>
+                            <li class="dropdown-divider"></li>
+                            <a class="dropdown-item" href="https://finance.yahoo.com">this is another link to yahoo</a>
+                          </li>
+                        </ul>
+                      </li> <!-- second-most submenu -->
+
+                  </li>
+                </ul>
+	      </li> <!-- top-most submenu -->
+
+              <% data = YAML.load(File.open("#{Rails.root}/config/sector_map.yml")) %>
+              <% data.keys.each do |sector|  %>
+
+              <li class="dropdown-submenu"> <!-- dropdown-submenu (sector) -->
+              <a class="dropdown-item" tabindex="-1" href="#"><%= sector %></a>
+                <ul class="dropdown-menu"> <!-- dropdown-menu -->
+                  <li class="dropdown-submenu"> <!-- dropdown-submenu (industries) -->
+              <%   industries = [] %>
+              <%   data[sector].each { |ind| industries << ind.keys.first } %>
+              <p style="text-align: center">Industries within<br/><span style="color: black"><%= sector %></span>
+                <span> (<%= industries.size %>)</span></p>
+              <li class="dropdown-divider"></li>
+              <%   industries.each_with_index do |industry_name, i| %>
+              <%     symbols = data[sector][i].values.flatten.sort %>
+                    <a class="dropdown-item" href="#"><%= "#{industry_name} (#{symbols.size})" %></a>
+                    <ul class="dropdown-submenu"> <!-- dropdown-submenu (symbols) -->
+              <%      symbols.each do |symbol| %>
+                      <li class="dropdown-item"><a href="<%= "/ticker/show?symbol=#{symbol}" %>"><%= "#{symbol.upcase}" %></a></li>
+              </li>
+              <%      end  %>
+                    </ul> <!-- dropdown-submenu (symbols) -->
+              <%    end  %>
+                  </li>  <!-- dropdown-submenu (industries) -->
+                </ul> <!-- dropdown-menu -->
+              <% end %>
+              </li> <!-- dropdown-submenu (sector) -->
+
+            </ul>
+          </div> <!-- END dropdown   -->
+
+
+          <div class="dropdown">
+            <a class="nav-link dropdown-toggle border-md-right" id="dropdown03" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sectors</a>
+            <ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+              <p style="text-align: center">All Sectors</p>
+              <li class="dropdown-divider"></li>
+
+
+
+              <li class="dropdown-submenu">
+                <a class="dropdown-item" tabindex="-1" href="#">SECTOR NAME 1</a>
+                <ul class="dropdown-menu">
+                  <li class="dropdown-submenu">
+                    <p>this is some p text</p>
+                    <li class="dropdown-divider"></li>
+
+
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item" tabindex="-1" href="#">INDUSTRY NAME 1</a>
+                        <ul class="dropdown-menu">
+                          <li class="dropdown-submenu">
+                            <p>this is some p text</p>
+                            <li class="dropdown-divider"></li>
+                            <a class="dropdown-item" href="https://finance.yahoo.com">SYMBOL 1 link</a>
+                          </li>
+                        </ul>
+                      </li> <!-- second-most submenu -->
+
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item" tabindex="-1" href="#">INDUSTRY NAME 2</a>
+                        <ul class="dropdown-menu">
+                          <li class="dropdown-submenu">
+                            <p>this is some p text</p>
+                            <li class="dropdown-divider"></li>
+                            <a class="dropdown-item" href="https://finance.yahoo.com">SYMBOL Y link</a>
+                            <a class="dropdown-item" href="https://finance.yahoo.com">SYMBOL Z link</a>
+                          </li>
+                        </ul>
+                      </li> <!-- second-most submenu -->		   
+
+
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item" tabindex="-1" href="#">INDUSTRY NAME 3</a>
+                        <ul class="dropdown-menu">
+                          <li class="dropdown-submenu">
+                            <p>this is some p text</p>
+                            <li class="dropdown-divider"></li>
+                            <a class="dropdown-item" href="https://finance.yahoo.com">SYMBOL W</a>
+
+
+                            <li class="dropdown-submenu">
+                              <a class="dropdown-item" tabindex="-1" href="#">maybe SYMBOL W stuff</a>
+                              <ul class="dropdown-menu">
+                                <li class="dropdown-submenu">
+                                  <p>getting real deep</p>
+                                  <li class="dropdown-divider"></li>
+                                  <a class="dropdown-item" href="https://finance.yahoo.com">real deep insights here</a>
+                                </li>
+                              </ul>
+                            </li> <!-- deep insights submenu -->
+
+
+                          </li>
+                       </ul>
+                     </li> <!-- industry submenu -->
+
+
+                     <li class="dropdown-submenu">
+                        <a class="dropdown-item" tabindex="-1" href="#">A NORMAL INDUSTRY NAME</a>
+                        <ul class="dropdown-menu">
+                          <li class="dropdown-submenu">
+                            <p>this is some p text</p>
+                            <li class="dropdown-divider"></li>
+                            <a class="dropdown-item" href="https://finance.yahoo.com">Link to SYMBOL A CHART</a>
+                            <a class="dropdown-item" href="https://finance.yahoo.com">Link to SYMBOL B CHART</a>
+                          </li>
+                        </ul>
+                      </li> <!-- second-most submenu -->			    
+
+
+                  </li>
+                </ul>
+              </li> <!-- sector submenu -->
+
+             <li class="dropdown-submenu">
+                <a class="dropdown-item" tabindex="-1" href="#">SECTOR NAME 2</a>
+                <ul class="dropdown-menu">
+                  <li class="dropdown-submenu">
+                    <p>this is some p text</p>
+                    <li class="dropdown-divider"></li>	      
+                  </li>
+		</li>
+	     </li> <!-- dropdown-submenu SECTOR NAME 2 -->
+
+             <% data = YAML.load(File.open("#{Rails.root}/config/sector_map.yml")) %>
+             <% data.keys.each do |sector|  %>
+
+              <li class="dropdown-submenu"> <!-- dropdown-submenu (sector) -->
+              <a class="dropdown-item" tabindex="-1" href="#"><%= sector %></a>
+                <ul class="dropdown-menu"> <!-- dropdown-menu -->
+
+                      <li class="dropdown-submenu">
+                        <a class="dropdown-item" tabindex="-1" href="#">INDUSTRY NAME 1</a>
+                        <ul class="dropdown-menu">
+                          <li class="dropdown-submenu">
+                            <p>this is some p text</p>
+                            <li class="dropdown-divider"></li>
+                            <a class="dropdown-item" href="https://finance.yahoo.com">SYMBOL 1 link</a>
+                          </li>
+                        </ul>
+                      </li> <!-- second-most submenu -->		  
+
+              <%   industries = [] %>
+              <%   data[sector].each { |ind| industries << ind.keys.first } %>
+              <p style="text-align: center">Industries within<br/><span style="color: black"><%= sector %></span><span> (<%= industries.size %>)</span></p>
+
+              <li class="dropdown-divider"></li>
+              <%   industries.each_with_index do |industry_name, i| %>
+              <%     symbols = data[sector][i].values.flatten.sort %>
+
+                    <a class="dropdown-item" href="#"><%= "#{industry_name} (#{symbols.size})" %></a>
+                    <ul class="dropdown-submenu"> <!-- dropdown-submenu (symbols) -->
+              <%      symbols.each do |symbol| %>
+                      <li class="dropdown-item"><a href="<%= "/ticker/show?symbol=#{symbol}" %>"><%= "#{symbol.upcase}" %></a></li>
+              </li>
+              <%      end  %>
+
+             </ul> <!-- dropdown-submenu (symbols) -->
+              <%    end  %>
+                  </li>  <!-- dropdown-submenu (industries) -->
+                </ul> <!-- dropdown-menu -->
+              <% end %>
+              </li> <!-- dropdown-submenu (sector) -->
+
+            <!-- dropdown parent -->
+            </ul>
+	  </div> <!-- END -->
